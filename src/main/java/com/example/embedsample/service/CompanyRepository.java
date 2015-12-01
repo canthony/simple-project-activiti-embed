@@ -33,6 +33,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
+ * A simple facade that provides some domain classes. Not a real repository in the
+ * Spring Data sends - although ultimately it may become one.
+ *
  * com.example.embedsample.CompanyRepository, created on 27/11/2015 16:23 <p>
  * @author Charles
  */
@@ -147,6 +151,9 @@ public class CompanyRepository implements ResourceLoaderAware {
   }
 
 
+  /**
+   * Class to simplify mapping of fields in the CSV
+   */
   protected static class FieldDescription {
     String heading;
     CellProcessor processor;

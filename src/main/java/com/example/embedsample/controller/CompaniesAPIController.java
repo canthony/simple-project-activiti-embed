@@ -6,7 +6,11 @@ package com.example.embedsample.controller;
 import com.example.embedsample.domain.Company;
 import com.example.embedsample.domain.CompanyOrdering;
 import com.example.embedsample.service.CompanyRepository;
+import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +37,19 @@ public class CompaniesAPIController {
   }
 
   @RequestMapping()
-  public Iterable<Company> getCompanies(
+  public Iterable<CompanySearchResult> getCompanies(
       @RequestParam(defaultValue = "+companyName") String sort
   ) {
-    return FluentIterable
+    ImmutableSortedSet<Company> sortedCompanies = FluentIterable
         .from(companyRepository.getAllCompanies())
         .toSortedSet(companyOrdering.getOrdering(sort));
+
+    return ImmutableSet.copyOf(Iterables.transform(sortedCompanies, new Function<Company, CompanySearchResult>() {
+      @Override
+      public CompanySearchResult apply(Company input) {
+        return new CompanySearchResult(input.getRegistrationNumber(), input.getCompanyName());
+      }
+    }));
   }
 
 
