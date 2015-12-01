@@ -4,9 +4,12 @@
 package com.example.embedsample.service;
 
 import com.example.embedsample.domain.Company;
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,8 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.supercsv.cellprocessor.Optional;
+import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.Trim;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
@@ -24,6 +29,7 @@ import javax.annotation.PostConstruct;
 import java.beans.Introspector;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,8 +38,10 @@ import java.util.Map;
  */
 @Component
 public class CompanyRepository implements ResourceLoaderAware {
+  public static final CellProcessor CP_MANDATORY_STRING = new NotNull(new Trim());
+  public static final CellProcessor CP_OPTIONAL_STRING = new Optional(new Trim());
+  public static final CellProcessor CP_OPTIONAL_DATE = new ParseDate("yyyy-MM-dd");
   private static Logger LOGGER = LoggerFactory.getLogger(CompanyRepository.class);
-
   protected String resourceName = "classpath:companies.csv";
   protected Map<String, Company> regKeyToCompany = Maps.newHashMap();
   protected ResourceLoader resourceLoader;
@@ -62,27 +70,44 @@ public class CompanyRepository implements ResourceLoaderAware {
   protected void loadCompaniesFromCSV(String resourceName) throws IOException {
     Resource resource = resourceLoader.getResource(resourceName);
 
+    List<FieldDescription> descriptions = ImmutableList.of(
+        new FieldDescription("RegistrationNumber", CP_MANDATORY_STRING),
+        new FieldDescription("CompanyName", CP_MANDATORY_STRING),
+        new FieldDescription("ActivityCode", CP_OPTIONAL_STRING),
+        new FieldDescription("ActivityDescription", CP_OPTIONAL_STRING),
+        new FieldDescription("StatusCode", CP_OPTIONAL_STRING),
+        new FieldDescription("StatusDescription", CP_OPTIONAL_STRING),
+        new FieldDescription("RegistrationDate", CP_OPTIONAL_DATE)
+    );
+
+    String[] fieldMapping = Iterables.toArray(Lists.transform(descriptions, new Function<FieldDescription, String>() {
+      @Override
+      public String apply(FieldDescription input) {
+        return Introspector.decapitalize(input.heading);
+      }
+    }), String.class);
+
+    CellProcessor[] processors = Iterables.toArray(Lists.transform(descriptions, new Function<FieldDescription, CellProcessor>() {
+      @Override
+      public CellProcessor apply(FieldDescription input) {
+        return input.processor;
+      }
+    }), CellProcessor.class);
+
+
     try (CsvBeanReader reader = new CsvBeanReader(
         new InputStreamReader(resource.getInputStream()),
         CsvPreference.STANDARD_PREFERENCE)
     ) {
 
-      /* Set the property names from the first line : trim and make the first character
-       * lower case */
+      /* Read the headers from the first line */
       String[] header = reader.getHeader(true);
-      for (int i = 0; i < header.length; i++) {
-        header[i] = Introspector.decapitalize(header[i].trim());
-      }
 
-      /* Setup up the column processors */
-      CellProcessor[] processors = {new NotNull(new Trim()),
-                                    new Trim()
-      };
 
       /* Read the companies */
-      for (Company company = reader.read(Company.class, header, processors);
+      for (Company company = reader.read(Company.class, fieldMapping, processors);
            company != null;
-           company = reader.read(Company.class, header, processors)) {
+           company = reader.read(Company.class, fieldMapping, processors)) {
         addCompany(company);
       }
 
@@ -119,5 +144,20 @@ public class CompanyRepository implements ResourceLoaderAware {
   protected void addCompany(Company company) {
     Preconditions.checkNotNull(company, "company cannot be null");
     regKeyToCompany.put(company.getRegistrationNumber(), company);
+  }
+
+
+  protected static class FieldDescription {
+    String heading;
+    CellProcessor processor;
+
+    public FieldDescription(String heading) {
+      this(heading, null);
+    }
+
+    public FieldDescription(String heading, CellProcessor processor) {
+      this.heading = heading;
+      this.processor = processor;
+    }
   }
 }

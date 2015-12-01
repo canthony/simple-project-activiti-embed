@@ -1,9 +1,21 @@
-RegistrationNumber, CompanyName
-01079138, HPD SOFTWARE LIMITED
-00002065, LLOYDS BANK PLC
-00233200, REALLY USEFUL THEATRES LIMITED
-00741598, IBM UNITED KINGDOM LIMITED
-00926722, HEAL AND SON LIMITED
-03107457, MAILBOXES ETC. (UK) LIMITED
-03927052, HPD LIMITED
-04022738, ELEMENTS KITCHENS LIMITED
+RegistrationNumber,CompanyName,ActivityCode,ActivityDescription,StatusCode,StatusDescription,RegistrationDate
+00002065, LLOYDS BANK PLC,6512,Other monetary intermediation,Active,Active - Accounts Filed,1865-04-20
+00233200, REALLY USEFUL THEATRES LIMITED,9232,Operation of arts facilities,Active,Active - Accounts Filed,1928-09-07
+00741598,  IBM UNITED KINGDOM LIMITED,3002,Manufacture computers & process equipment,Active,Active - Accounts Filed,1962-11-21
+00926722, HEAL & SON LIMITED,5244,Retail furniture household etc.,Other,Financial Statements too old,1968-02-01
+01079148,  I.C. AND P. WIPERS LIMITED,5190,Other wholesale,Other,Financial Statements too old,1972-10-30
+03107457,  MAIL BOXES ETC. (UK) LIMITED,7415,Holding Companies including Head Offices,Active,Active - Accounts Filed,1995-09-22
+03927052,HPD LIMITED,7011,Development & sell real estate,Active,Active - Accounts Filed,2000-02-16
+04022738,ELEMENTS KITCHENS LIMITED,4534,Other building installation,Other,Financial Statements too old,2000-06-28
+04238080,FARRUGIA ZAHRA INSTALLATIONS LIMITED,4531,Installation electrical wiring etc.,NonActive,Company is dissolved,2001-06-20
+04429260,ALFRESCO SOFTWARE LIMITED,7260,Other computer related activities,Active,Active - Accounts Filed,2002-05-01
+04647434,MORTGAGES 4 U LIMITED,7031,Real estate agencies,Pending,In Liquidation,2003-01-24
+05182330,ZENITH PACKAGING LIMITED,2222,Printing not elsewhere classified,Other,Financial Statements too old,2004-07-19
+05947793,SHORETEL UK LIMITED,7260,Other computer related activities,Active,Active - Accounts Filed,2006-09-27
+06475982,ASUS LTD,1824,Manufacture other wearing apparel etc.,Pending,Dissolution (First Gazette),2008-01-17
+06994954,AMICUS FINANCE PLC,6522,Other credit granting,Active,Active - Accounts Filed,2009-08-19
+07521557,KIND OF DIGITAL LIMITED,7260,Other computer related activities,Other,Financial Statements too old,2011-02-08
+07713376,AMICUS CAPITAL LIMITED,6522,Other credit granting,Active,Active - Accounts Filed,2011-07-21
+07951659,RARE EARTH METAL EXCHANGE LTD,,,Pending,In Liquidation,2012-02-16
+08361274,DOAPLAN LIMITED,7222,Other software consultancy and supply,Other,Financial Statements too old,2013-01-15
+09537902,CAFE SAVINI LIMITED,,,Active,Active - Newly Incorporated,2015-04-13
