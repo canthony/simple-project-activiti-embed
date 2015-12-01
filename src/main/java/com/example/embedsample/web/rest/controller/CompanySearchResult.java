@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2001-2015 HPD Software Ltd.
  */
-package com.example.embedsample.controller;
+package com.example.embedsample.web.rest.controller;
 
 /**
  * com.example.embedsample.domain.CompanySearchResult, created on 01/12/2015 11:40 <p>

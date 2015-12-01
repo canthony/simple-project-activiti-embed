@@ -1,20 +1,9 @@
 <configuration>
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <!-- encoders are assigned the type
-         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
-    <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
-  </appender>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-  <root level="INFO">
-    <appender-ref ref="STDOUT"/>
-  </root>
-  <!--<logger name="com.codahale.metrics" level="WARN"/>-->
-  <!--<logger name="com.ryantenney" level="WARN"/>-->
-  <!--<logger name="com.zaxxer" level="WARN"/>-->
-  <!--<logger name="org.apache" level="WARN"/>-->
+
   <logger name="org.hibernate" level="WARN"/>
   <logger name="org.springframework" level="WARN"/>
+
 </configuration>

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2001-2015 HPD Software Ltd.
  */
-package com.example.embedsample.controller;
+package com.example.embedsample.web.rest.controller;
 
 import com.example.embedsample.domain.Company;
 import com.example.embedsample.domain.CompanyOrdering;
@@ -54,9 +54,7 @@ public class CompaniesAPIController {
 
 
   @RequestMapping("/{regKey}")
-  public Company getCompany(
-      @PathVariable("regKey") String regKey
-  ) {
+  public Company getCompany(@PathVariable("regKey") String regKey) {
     Company company = companyRepository.getCompanyByRegistrationNumber(regKey);
     if (company == null) {
       throw new CompanyNotFoundException();
