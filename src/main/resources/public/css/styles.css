@@ -1,0 +1,20 @@
+.moustache-template {
+  display: none;
+}
+
+.company-info-section {
+  margin-top: 30px;
+}
+
+table.label-value tr td:first-child {
+  font-weight: bold;
+  padding-left: 0;
+}
+
+table.label-value tr td {
+  padding-left: 4px;
+}
+
+table.label-value tr td:first-child::after {
+  content: ":";
+}

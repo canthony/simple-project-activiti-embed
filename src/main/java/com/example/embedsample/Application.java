@@ -3,6 +3,7 @@
  */
 package com.example.embedsample;
 
+import com.example.embedsample.web.mvc.WebUIConfig;
 import com.example.embedsample.web.rest.RestConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,17 +29,37 @@ import org.springframework.web.servlet.DispatcherServlet;
 public class Application {
   private static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
+  /**
+   * Main Entry Point
+   * @param args
+   */
   public static void main(String[] args) {
     ConfigurableApplicationContext ctx = SpringApplication.run(Application.class);
   }
 
 
+  /**
+   * Creates a servlet registration for the Spring Dispatcher servlet used to
+   * serve controllers from com.example.embedsample.web.rest
+   *
+   *
+   * @return
+   */
   @Bean
   public ServletRegistrationBean restApiDispatcher() {
     return createServletRegistrationBean(RestConfiguration.class,
         "restApiDispatcher",
         "/special-api/*");
   }
+
+
+  @Bean
+  public ServletRegistrationBean webMvcDispatcher() {
+    return createServletRegistrationBean(WebUIConfig.class,
+        "mvcDispatcher",
+        "/*");
+  }
+
 
   protected ServletRegistrationBean createServletRegistrationBean(Class<?> configClass, String name, String... mappings) {
     AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();

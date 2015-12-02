@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+  <title>Spring Framework Guru</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+  <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+        th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+        rel="stylesheet" media="screen"/>
+
+  <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+          th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.0/mustache.js"
+          th:src="@{/webjars/mustache/2.2.0/mustache.js}"></script>
+
+
+  <link rel="stylesheet" media="screen" href="../public/css/styles.css"
+        th:href="@{css/styles.css}"/>
+
+
+  <script th:inline="javascript">
+
+    function renderCompanyInfo(regNumber) {
+      console.log(regNumber);
+
+      var baseUrl = /*[[ @{/special-api/companies} ]]*/ 'http://pc167:8080/special-api/companies/';
+      var url = baseUrl + '/' + regNumber;
+      $.getJSON(url, function (data) {
+        var stuffToRender = {
+          "registrationNumber": "07951659",
+          "companyName": "RARE EARTH METAL EXCHANGE LTD",
+          "activityCode": null,
+          "activityDescription": null,
+          "statusCode": "Pending",
+          "statusDescription": "In Liquidation",
+          "registrationDate": 1329350400000,
+          "age": 3
+        };
+
+        var template = $('#template-company-info').html();
+        console.log(data);
+        var html = Mustache.to_html(template, data);
+        $('#company-info-section').html(html);
+
+      });
+
+    }
+
+
+    $(document).ready(function () {
+          console.log("Ready");
+
+          var url = /*[[ @{/special-api/companies} ]]*/ 'http://pc167:8080/special-api/companies';
+          $.getJSON(url, function (data) {
+
+            var stuffToRender = {
+              companies: data
+            };
+
+            var template = $('#template-table').html();
+            var html = Mustache.to_html(template, stuffToRender);
+            $('#company-table-section').html(html);
+
+            $('#companies-table').find('tbody tr').click(function (e) {
+              var $row = $(e.target).closest("tr");
+
+              $row.siblings().removeClass("info");
+              $row.toggleClass("info");
+
+
+              var regNumber = $row.data('registration-number');
+              renderCompanyInfo(regNumber);
+
+            });
+
+          });
+
+
+        }
+    )
+  </script>
+</head>
+<body>
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-md-5 ">
+      <div id="company-table-section">-</div>
+    </div>
+
+    <div id="company-info-section" class="col-md-7 company-info-section">
+
+    </div>
+  </div>
+
+</div>
+
+
+<div id="template-table" class="moustache-template">
+  <div class="table-responsive">
+    <table id="companies-table" class="table table-hover table-condensed">
+      <thead>
+      <tr>
+        <td>Registration Number</td>
+        <td>Company Name</td>
+      </tr>
+      </thead>
+      <tbody>
+      <!--{{#companies}}-->
+      <tr data-registration-number="{{registrationNumber}}">
+        <td>{{registrationNumber}}</td>
+        <td>{{companyName}}</td>
+      </tr>
+      <!--{{/companies}}-->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="template-company-info" class="moustache-template">
+  <div class="well">
+    <table class="label-value">
+
+      <tr>
+        <td>Company Name</td>
+        <td>{{companyName}}</td>
+      </tr>
+
+      <tr>
+        <td>Activity</td>
+        <td>{{activityCode}} - {{activityDescription}}</td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td>{{statusCode}} - {{statusDescription}}</td>
+      </tr>
+      <tr>
+        <td>Registration Number</td>
+        <td>{{registrationNumber}}</td>
+      </tr>
+      <tr>
+        <td>Age</td>
+        <td>{{age}} Years</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
