@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Charles
  */
 @Controller
-public class SimpleExample {
+public class ExampleUI {
 
   @RequestMapping("/")
   public String index() {
-    return "doris";
+    return "main-web-ui";
   }
 
 }

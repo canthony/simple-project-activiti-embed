@@ -4,7 +4,7 @@
 
 
   <logger name="org.hibernate" level="WARN"/>
-  <!--<logger name="org.springframework" level="WARN"/>-->
-  <logger name="org.springframework.web" level="DEBUG"/>
+  <logger name="org.springframework" level="WARN"/>
+  <!--<logger name="org.springframework.web" level="DEBUG"/>-->
 
 </configuration>

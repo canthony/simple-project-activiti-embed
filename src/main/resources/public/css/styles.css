@@ -2,10 +2,6 @@
   display: none;
 }
 
-.company-info-section {
-  margin-top: 30px;
-}
-
 table.label-value tr td:first-child {
   font-weight: bold;
   padding-left: 0;
@@ -17,4 +13,18 @@ table.label-value tr td {
 
 table.label-value tr td:first-child::after {
   content: ":";
+}
+
+#company-table tr:hover {
+  cursor: pointer;
+}
+
+#company-info-section {
+  margin-top: 30px;
+}
+
+#company-table-section, #company-info-section {
+  width: auto;
+  display: inline-block;
+  vertical-align: top;
 }

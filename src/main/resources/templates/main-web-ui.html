@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-  <title>Spring Framework Guru</title>
+  <title>Example Web UI</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
   <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
@@ -63,18 +63,22 @@
             var html = Mustache.to_html(template, stuffToRender);
             $('#company-table-section').html(html);
 
-            $('#companies-table').find('tbody tr').click(function (e) {
+            $('#company-table').find('tbody tr').click(function (e) {
               var $row = $(e.target).closest("tr");
 
+              /* Toggle the selected row, and remove the
+               highlighting from any other row */
               $row.siblings().removeClass("info");
               $row.toggleClass("info");
 
-
-              var regNumber = $row.data('registration-number');
-              renderCompanyInfo(regNumber);
-
+              /* If we are selected, load the company info, otherwise empty it */
+              if ($row.hasClass("info")) {
+                var regNumber = $row.data('registration-number');
+                renderCompanyInfo(regNumber);
+              } else {
+                $('#company-info-section').html("");
+              }
             });
-
           });
 
 
@@ -83,25 +87,14 @@
   </script>
 </head>
 <body>
-<div class="container-fluid">
 
-  <div class="row">
-
-    <div class="col-md-5 ">
-      <div id="company-table-section">-</div>
-    </div>
-
-    <div id="company-info-section" class="col-md-7 company-info-section">
-
-    </div>
-  </div>
-
-</div>
+<div id="company-table-section">-</div>
+<div id="company-info-section" class="company-info-section"></div>
 
 
 <div id="template-table" class="moustache-template">
   <div class="table-responsive">
-    <table id="companies-table" class="table table-hover table-condensed">
+    <table id="company-table" class="table table-hover table-condensed">
       <thead>
       <tr>
         <td>Registration Number</td>
