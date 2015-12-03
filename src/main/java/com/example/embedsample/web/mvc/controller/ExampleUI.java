@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ExampleUI {
 
-  @RequestMapping("/")
+  @RequestMapping("/*")
   public String index() {
     return "main-web-ui";
   }

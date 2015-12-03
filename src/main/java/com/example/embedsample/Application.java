@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +21,7 @@ import org.springframework.web.servlet.DispatcherServlet;
  * com.example.embedsample.Application, created on 27/11/2015 14:31 <p>
  * @author Charles
  */
-@SpringBootApplication(exclude = DispatcherServletAutoConfiguration.class)
+@SpringBootApplication()
 @ComponentScan(excludeFilters =
 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.example.embedsample.web.*")
 )
@@ -57,7 +56,7 @@ public class Application {
   public ServletRegistrationBean webMvcDispatcher() {
     return createServletRegistrationBean(WebUIConfig.class,
         "mvcDispatcher",
-        "/*");
+        "/main-ui/*");
   }
 
 

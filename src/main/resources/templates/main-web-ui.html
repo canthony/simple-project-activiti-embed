@@ -23,7 +23,7 @@
   <script th:inline="javascript">
 
     function renderCompanyInfo(regNumber) {
-      console.log(regNumber);
+//      console.log(regNumber);
 
       var baseUrl = /*[[ @{/special-api/companies} ]]*/ 'http://pc167:8080/special-api/companies/';
       var url = baseUrl + '/' + regNumber;
@@ -40,7 +40,7 @@
         };
 
         var template = $('#template-company-info').html();
-        console.log(data);
+//        console.log(data);
         var html = Mustache.to_html(template, data);
         $('#company-info-section').html(html);
 
