@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author Charles
  */
-@Service
+@Service(value = "accountsUploadService")
 public class AccountsUploadService {
   public static String MESSAGE_ACCOUNTS_UPLOADED = "AccountsUploaded";
   private static Logger LOGGER = LoggerFactory.getLogger(AccountsUploadService.class);

@@ -40,7 +40,7 @@ import java.util.Map;
  *
  * @author Charles
  */
-@Service
+@Service(value = "companyService")
 public class CompanyService {
   public static final CellProcessor CP_MANDATORY_STRING = new NotNull(new Trim());
   public static final CellProcessor CP_OPTIONAL_STRING = new Optional(new Trim());
