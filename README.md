@@ -35,35 +35,34 @@ java -jar build/libs/simple-project.war
 
 ## Entry Point
 
-com.example.embedsample.Application is the main Spring Boot entry point. It registers two separate Spring Dispatcher servlets,
+`com.example.embedsample.Application` is the main Spring Boot entry point. It registers two separate Spring Dispatcher servlets,
 one at /main-ui (the user interface) and one at /special-api (a REST Api)
 
-There is a simple front page at the root of the application, providing acesss
+There is a simple front page at the root of the application, providing accesss to both main UI pages. It also has a 
+disable placeholder link for the Activiti UI
 
 ## Business Logic 
 
-com.example.embedsample.CompanyService provides access to the domain class. It represents business logic that may be called 
+`com.example.embedsample.CompanyService` provides access to the domain class. It represents business logic that may be called 
 either from the REST Api or an Activiti process. The bean name is **companyService** 
  
-com.example.embedsample.AccountsUploadService will deal with the business logic of a file upload. It is intended that it will
+`com.example.embedsample.AccountsUploadService` will deal with the business logic of a file upload. It is intended that it will
 notify an Activity process instance of the presence of a file, via a message. Hopefuly, we will also be able to add the file
-to the process instance too. The bean name is **accountsUploadService **
+to the process instance too. The bean name is **accountsUploadService**
 
 ## Web Controllers
 
 There are two separate dispatcher servlets for two separate Web Contexts within the application.
-com.example.embedsample.web.rest contains the configuration and controller for a simple REST Api to access the business logic 
-provided by the CompanyService
 
 ### REST Api
-The com.example.embedsample.web.rest context is mapped to /special-api 
+The `com.example.embedsample.web.rest` context is mapped to /special-api; it provides access to the business logic 
 
 `/special-api/companies` provides access to a list of companies 
 `/special-api/companies/xxxx` provides data for a specic company, where xxx is the company registration number  
 
 ### Main UI
-The com.example.embedsample.web.mainui context is mapped to /main-ui. It uses the REST Api to provide it's data and
-access to the business logic.
+The `com.example.embedsample.web.mainui` context is mapped to /main-ui. It uses the REST Api above to provide the backend 
+functionality.
 The front end is built from HTML + Bootstrap + JQuery; by using Thymeleaf templates, we've made it a little easier to
 prototype whilst developing, and also access embedded resources using webjars  
  
