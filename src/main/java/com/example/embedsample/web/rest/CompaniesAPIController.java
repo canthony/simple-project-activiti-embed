@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2001-2015 HPD Software Ltd.
  */
-package com.example.embedsample.web.rest.controller;
+package com.example.embedsample.web.rest;
 
 import com.example.embedsample.domain.Company;
 import com.example.embedsample.domain.CompanyOrdering;
-import com.example.embedsample.service.CompanyRepository;
+import com.example.embedsample.service.CompanyService;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
@@ -20,30 +20,42 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * com.example.embedsample.controller.CompaniesAPIController, created on 30/11/2015 09:40 <p>
+ * A Rest API Controller, providing access to Company data. <p/>
+ *
+ * A simple front to {@link CompanyService}
+ *
  * @author Charles
  */
-
 @RestController
 @RequestMapping("companies")
 public class CompaniesAPIController {
 
   protected CompanyOrdering companyOrdering = new CompanyOrdering();
-  protected CompanyRepository companyRepository;
+  protected CompanyService companyService;
 
   @Autowired
-  public CompaniesAPIController(CompanyRepository companyRepository) {
-    this.companyRepository = companyRepository;
+  public CompaniesAPIController(CompanyService companyService) {
+    this.companyService = companyService;
   }
 
+  /**
+   * Search for companies
+   *
+   * @param sort
+   * @return
+   */
   @RequestMapping()
   public Iterable<CompanySearchResult> getCompanies(
       @RequestParam(defaultValue = "+companyName") String sort
   ) {
+
+    // Create a sorted collection of companies, ordered by the sort provided in the
+    // parameter
     ImmutableSortedSet<Company> sortedCompanies = FluentIterable
-        .from(companyRepository.getAllCompanies())
+        .from(companyService.getAllCompanies())
         .toSortedSet(companyOrdering.getOrdering(sort));
 
+    // Transform the Company in a Search Result
     return ImmutableSet.copyOf(Iterables.transform(sortedCompanies, new Function<Company, CompanySearchResult>() {
       @Override
       public CompanySearchResult apply(Company input) {
@@ -52,10 +64,15 @@ public class CompaniesAPIController {
     }));
   }
 
-
+  /**
+   * Get the given company
+   *
+   * @param regKey The registration number of the company
+   * @return
+   */
   @RequestMapping("/{regKey}")
   public Company getCompany(@PathVariable("regKey") String regKey) {
-    Company company = companyRepository.getCompanyByRegistrationNumber(regKey);
+    Company company = companyService.getCompanyByRegistrationNumber(regKey);
     if (company == null) {
       throw new CompanyNotFoundException();
     }

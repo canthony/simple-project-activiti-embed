@@ -7,7 +7,8 @@ import com.example.embedsample.util.OrderingFactory;
 import com.google.common.collect.Ordering;
 
 /**
- * com.example.embedsample.domain.CompanyOrdering, created on 30/11/2015 10:41 <p>
+ * Provides named Ordering for the Company domain object
+ *
  * @author Charles
  */
 public class CompanyOrdering extends OrderingFactory<Company> {

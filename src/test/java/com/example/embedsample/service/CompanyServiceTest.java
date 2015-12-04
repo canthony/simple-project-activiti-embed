@@ -15,15 +15,15 @@ import java.io.IOException;
  * @author Charles
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = CompanyRepositoryTest.Config.class)
-public class CompanyRepositoryTest {
+@ContextConfiguration(classes = CompanyServiceTest.Config.class)
+public class CompanyServiceTest {
   @Autowired
   protected ResourceLoader load;
 
 
   @Test
   public void testInit() throws IOException {
-    CompanyRepository repository = new CompanyRepository();
+    CompanyService repository = new CompanyService();
     repository.resourceLoader = load;
 
     repository.init();

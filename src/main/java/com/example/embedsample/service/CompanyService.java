@@ -13,10 +13,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ResourceLoaderAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.Trim;
@@ -25,7 +25,7 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.beans.Introspector;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,37 +33,37 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * A simple facade that provides access to some domain classes.
+ * <p/
+ * The data here is loaded from a local CSV file. In real life, it might come from
+ * a database, or a third-party webservice.
  *
- * A simple facade that provides some domain classes. Not a real repository in the
- * Spring Data sends - although ultimately it may become one.
- *
- * com.example.embedsample.CompanyRepository, created on 27/11/2015 16:23 <p>
  * @author Charles
  */
-@Component
-public class CompanyRepository implements ResourceLoaderAware {
+@Service
+public class CompanyService {
   public static final CellProcessor CP_MANDATORY_STRING = new NotNull(new Trim());
   public static final CellProcessor CP_OPTIONAL_STRING = new Optional(new Trim());
   public static final CellProcessor CP_OPTIONAL_DATE = new ParseDate("yyyy-MM-dd");
-  private static Logger LOGGER = LoggerFactory.getLogger(CompanyRepository.class);
-  protected String resourceName = "classpath:companies.csv";
+  protected static final String RESOURCE_NAME = "classpath:companies.csv";
+  private static Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
+
   protected Map<String, Company> regKeyToCompany = Maps.newHashMap();
   protected ResourceLoader resourceLoader;
 
 
-  public CompanyRepository() {
-
-  }
-
-  @Override
-  public void setResourceLoader(ResourceLoader resourceLoader) {
+  @Autowired
+  public CompanyService(ResourceLoader resourceLoader) throws IOException {
     this.resourceLoader = resourceLoader;
+    loadCompaniesFromCSV(RESOURCE_NAME);
+    LOGGER.info("CompanyService - Created, with {} companies", regKeyToCompany.size());
   }
 
-  @PostConstruct
-  public void init() throws IOException {
-    loadCompaniesFromCSV(resourceName);
+  @PreDestroy
+  private void destroy() {
+    LOGGER.info("Closed");
   }
+
 
   /**
    * Loads companies from a CSV file

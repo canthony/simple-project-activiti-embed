@@ -1,10 +1,11 @@
 /*
  * Copyright (c) 2001-2015 HPD Software Ltd.
  */
-package com.example.embedsample.web.rest.controller;
+package com.example.embedsample.web.rest;
 
 /**
- * com.example.embedsample.domain.CompanySearchResult, created on 01/12/2015 11:40 <p>
+ * A Cut-Down version of the Company domain object, used as a result of a company search
+ *
  * @author Charles
  */
 public class CompanySearchResult {

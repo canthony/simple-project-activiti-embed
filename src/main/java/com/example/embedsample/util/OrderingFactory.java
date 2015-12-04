@@ -32,8 +32,6 @@ import java.util.Map;
  * getOrdering("country,-age,+name")
  * } which will order by "country ascending, followed by age descending, followed by name ascending.
  *
- * <p></p>
- * com.example.embedsample.domain.OrderingHelper, created on 30/11/2015 10:28 <p>
  * @author Charles
  */
 public class OrderingFactory<T> {
@@ -60,6 +58,7 @@ public class OrderingFactory<T> {
    * @param descriptorAsString
    * @return
    */
+  @SuppressWarnings("unchecked")
   public Ordering<T> getOrdering(String descriptorAsString) {
     List<String> descriptors = DESCRIPTOR_SPLITTER.splitToList(descriptorAsString);
 
@@ -76,8 +75,8 @@ public class OrderingFactory<T> {
 
         // Still no ordering : use an arbitrary ordering
         if (ordering == null) {
-          //noinspection unchecked
-          ordering = (Ordering<T>) Ordering.arbitrary();
+
+          ordering = (Ordering<T>) Ordering.<T>arbitrary();
         }
         return ordering;
       }

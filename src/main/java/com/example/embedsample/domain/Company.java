@@ -10,7 +10,8 @@ import org.joda.time.Years;
 import java.util.Date;
 
 /**
- * com.example.embedsample.domain.Company, created on 27/11/2015 15:21 <p>
+ * Domain class for a Company
+ *
  * @author Charles
  */
 public class Company {

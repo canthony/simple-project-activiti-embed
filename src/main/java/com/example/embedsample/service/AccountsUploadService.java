@@ -8,11 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import java.io.File;
 import java.util.Map;
 
 /**
- * com.example.embedsample.service.AccountsUploadService, created on 03/12/2015 12:38 <p>
+ * An example service to illustrate a Spring bean talking to an Activiti process.
+ *
+ * Here, we are standing in for a user uploading a file that needs to add to a running
+ * process, and the process notified that the fil has been uploaded.
+ *
  * @author Charles
  */
 @Service
@@ -35,7 +40,17 @@ public class AccountsUploadService {
     LOGGER.info("AccountsUploadService - Created");
   }
 
+  @PreDestroy
+  private void destroy() {
+    LOGGER.info("Closed");
+  }
 
+  /**
+   * Notify the given Activiti process that an accounts file has been uploaded
+   *
+   * @param executionId
+   * @param accountsFile
+   */
   public void accountsUploaded(String executionId, File accountsFile) {
     LOGGER.info("accountFilesUploaded - Received file {} for Execution {}", accountsFile, executionId);
 

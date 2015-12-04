@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2001-2015 HPD Software Ltd.
  */
-package com.example.embedsample.web.mvc.controller;
+package com.example.embedsample.web.mainui;
 
 import com.example.embedsample.service.AccountsUploadService;
 import org.slf4j.Logger;
@@ -19,7 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * com.example.embedsample.web.mvc.SimpleExample, created on 01/12/2015 15:46 <p>
+ * Controller for the main UI of the application
+ *
  * @author Charles
  */
 @Controller
@@ -34,16 +35,31 @@ public class ExampleUI {
     this.accountsUploadService = accountsUploadService;
   }
 
+  /**
+   * Show the main UI
+   * @return
+   */
   @RequestMapping("/*")
   public String index() {
     return "main-web-ui";
   }
 
+  /**
+   * Shows the UI for File Upload
+   * @return
+   */
   @RequestMapping(value = "/upload", method = RequestMethod.GET)
   public String upload() {
     return "file-upload";
   }
 
+  /**
+   * Handles the upload of a file, and passes it on to the {@link AccountsUploadService}
+   *
+   * @param executionId
+   * @param uploadedFile
+   * @return
+   */
   @RequestMapping(value = "/upload", method = RequestMethod.POST)
   public String handleFileUpload(
       @RequestParam("execution-id") String executionId,
